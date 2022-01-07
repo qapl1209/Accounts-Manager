@@ -31,13 +31,15 @@ public class MenuState extends State{
 		super(gsm);
 		
 		im = new InputManager();
-		
+
+		//"Accounts" text
 		Font font = new Font("Dialogue", Font.BOLD, 24);
 		int textWidth = GraphicsTools.calculateTextWidth("Accounts", font);
 		tb = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Accounts", font);
-		
-				
-		sw = new AccountsScrollWindow(50, 40, 700, 500, 2000);
+
+		im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
+
+		sw = new AccountsScrollWindow(30, 40, 740, 480, 480);
 		
 	}
 
@@ -92,8 +94,8 @@ public class MenuState extends State{
 		
 		switch(which) {
 		case "button1":
-			im.setVal("slider1", 50);
-			im.setVal("slider2", 75);
+//			im.setVal("slider1", 50);
+//			im.setVal("slider2", 75);
 			break;
 		}
 		
@@ -134,17 +136,15 @@ class AccountsScrollWindow extends ScrollWindow{
 
 	public AccountsScrollWindow(int x, int y, int width, int height, int realHeight) {
 		super(x, y, width, height, realHeight);
-		im.addInput(new Button(100, 100, 100, 100, "Click Me", "button1"));
-		im.addInput(new SliderButton(50, 50, 200, 10, 0, 100, "slider 1", "slider1"));
 	}
 
 	@Override
 	public void repaint(Graphics g, BufferedImage b) {
 		im.draw(g);
-		for(int i = 0; i < 7; i++) {
-			g.setColor(new Color(i * 33, i * 33, i * 33));
-			g.fillRect(0, i * 33, 33, 33);
-		}
+//		for(int i = 0; i < 7; i++) {
+//			g.setColor(new Color(i * 33, i * 33, i * 33));
+//			g.fillRect(0, i * 33, 33, 33);
+//		}
 	}
 	
 	@Override
@@ -158,13 +158,14 @@ class AccountsScrollWindow extends ScrollWindow{
 			}
 			
 			switch(which) {
-			case "button1":
-				im.setVal("slider1", 50);
-				im.addInput(new Button(100, counter, 100, 100, "Click Me", "button1"));
-				counter += 150;
-				this.setRealHeight(this.getRealHeight() + 150);
-				break;
+				case "button1":
+	//				im.addInput(new Button(100, counter, 100, 100, "Click Me", "button1"));
+					counter += 150;
+					this.setRealHeight(this.getRealHeight() + 150);
+					break;
 			}
+
+
 		}
 	}
 	
