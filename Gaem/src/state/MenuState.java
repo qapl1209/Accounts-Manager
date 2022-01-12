@@ -15,9 +15,12 @@ import input.SliderButton;
 import input.TextField;
 import input.ToggleButton;
 import main.MainPanel;
+import stuff.Account;
+import stuff.Entry;
 import util.GraphicsTools;
 import util.ScrollWindow;
 import util.TextBox;
+import java.util.ArrayList;
 
 public class MenuState extends State{
 	
@@ -26,6 +29,8 @@ public class MenuState extends State{
 	TextBox tb;
 	
 	AccountsScrollWindow sw;
+
+	ArrayList<Account> accountList = new ArrayList<Account>();
 
 	public MenuState(StateManager gsm) {
 		super(gsm);
@@ -93,12 +98,10 @@ public class MenuState extends State{
 		}
 		
 		switch(which) {
-		case "button1":
-//			im.setVal("slider1", 50);
-//			im.setVal("slider2", 75);
-			break;
+			case "btn_add":
+				accountList.add(new Account("", new ArrayList<Entry>(), 0));
+				break;
 		}
-		
 	}
 
 	@Override
