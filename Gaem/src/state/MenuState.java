@@ -31,6 +31,8 @@ public class MenuState extends State{
 	AccountsScrollWindow sw;
 
 	ArrayList<Account> accountList = new ArrayList<Account>();
+	
+	int counter = 0;
 
 	public MenuState(StateManager gsm) {
 		super(gsm);
@@ -99,8 +101,10 @@ public class MenuState extends State{
 		
 		switch(which) {
 			case "btn_add":
-				accountList.add(new Account("", new ArrayList<Entry>(), 0));
-				break;
+				accountList.add(new Account("wahoo", new ArrayList<Entry>(), 0));
+				sw.im.addInput(new Button(629, counter, 100, 60, "View", "wahoo"));
+				sw.setRealHeight(sw.getRealHeight()+counter);
+				counter += 60;
 		}
 	}
 

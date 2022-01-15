@@ -14,7 +14,7 @@ import input.InputManager;
 
 public abstract class ScrollWindow {
 
-	protected InputManager im;
+	public InputManager im;
 
 	protected int x, y, width, height;
 
