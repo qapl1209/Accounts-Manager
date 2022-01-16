@@ -3,14 +3,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Account {
-    String name;
+    public String name;
     ArrayList<Entry> entryList;
     double value;
 
-    public Account(String name, ArrayList<Entry> entryList, double value){
+    public Account(String name){
         this.name = name;
-        this.entryList = entryList;
-        this.value = value;
+        entryList = new ArrayList<Entry>();
+        value = 0;
     }
 
     boolean containsName(String name){

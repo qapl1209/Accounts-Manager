@@ -1,9 +1,6 @@
 package state;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Point;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -26,13 +23,15 @@ public class MenuState extends State{
 	
 	InputManager im;
 	
-	TextBox tb;
-	
+	TextBox tb1;
+	TextBox tb2;
+	TextBox tb3;
+
 	AccountsScrollWindow sw;
 
-	ArrayList<Account> accountList = new ArrayList<Account>();
-	
-	int counter = 0;
+	static ArrayList<Account> accountList = new ArrayList<Account>();
+
+	static int accountViewHeight = 60;
 
 	public MenuState(StateManager gsm) {
 		super(gsm);
@@ -40,14 +39,21 @@ public class MenuState extends State{
 		im = new InputManager();
 
 		//"Accounts" text
-		Font font = new Font("Dialogue", Font.BOLD, 24);
-		int textWidth = GraphicsTools.calculateTextWidth("Accounts", font);
-		tb = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Accounts", font);
+		Font font1 = new Font("Dialogue", Font.BOLD, 24);
+		Font font2 = new Font("Dialogue", Font.PLAIN, 13);
+		int textWidth = GraphicsTools.calculateTextWidth("Accounts", font1);
+		tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Accounts", font1);
 
 		im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
+		tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
 
-		sw = new AccountsScrollWindow(30, 40, 740, 480, 480);
+		sw = new AccountsScrollWindow(30, 90, 740, 420, 480);
 		
+	}
+
+	public void addAccount(String name){
+		accountList.add(new Account(name));
+		sw.im.addInput(new Button(630, (accountList.size()-1)*accountViewHeight, 100, accountViewHeight, "View", name));
 	}
 
 	@Override
@@ -68,7 +74,9 @@ public class MenuState extends State{
 	public void draw(Graphics g) {
 		
 		im.draw(g);
-		tb.draw(g);
+		tb1.draw(g);
+		tb2.draw(g);
+//		tb3.draw(g);
 		sw.draw(g);
 		
 	}
@@ -101,10 +109,8 @@ public class MenuState extends State{
 		
 		switch(which) {
 			case "btn_add":
-				accountList.add(new Account("wahoo", new ArrayList<Entry>(), 0));
-				sw.im.addInput(new Button(629, counter, 100, 60, "View", "wahoo"));
-				sw.setRealHeight(sw.getRealHeight()+counter);
-				counter += 60;
+				gsm.states.push(new AccountPromptState(gsm));
+				break;
 		}
 	}
 
@@ -138,8 +144,6 @@ public class MenuState extends State{
 }
 
 class AccountsScrollWindow extends ScrollWindow{
-	
-	public int counter = 250;
 
 	public AccountsScrollWindow(int x, int y, int width, int height, int realHeight) {
 		super(x, y, width, height, realHeight);
@@ -148,10 +152,14 @@ class AccountsScrollWindow extends ScrollWindow{
 	@Override
 	public void repaint(Graphics g, BufferedImage b) {
 		im.draw(g);
-//		for(int i = 0; i < 7; i++) {
-//			g.setColor(new Color(i * 33, i * 33, i * 33));
-//			g.fillRect(0, i * 33, 33, 33);
-//		}
+		for(int i = 0; i<MenuState.accountList.size();i++){
+			int y = i*MenuState.accountViewHeight;
+			int x = 0;
+			g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
+			g.drawString(MenuState.accountList.get(i).name, x+10, y+10);
+		}
+
+		this.setRealHeight(MenuState.accountList.size()*MenuState.accountViewHeight);
 	}
 	
 	@Override
@@ -165,11 +173,7 @@ class AccountsScrollWindow extends ScrollWindow{
 			}
 			
 			switch(which) {
-				case "button1":
-	//				im.addInput(new Button(100, counter, 100, 100, "Click Me", "button1"));
-					counter += 150;
-					this.setRealHeight(this.getRealHeight() + 150);
-					break;
+
 			}
 
 

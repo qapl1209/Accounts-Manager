@@ -1,5 +1,7 @@
 package state;
 
+import stuff.Account;
+
 import java.util.Stack;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,7 +23,7 @@ public class StateManager {
 		
 		states = new Stack<State>();
 		states.push(new MenuState(this));
-		
+//		states.push(new AccountPromptState(this));
 	}
 	
 	public void tick(Point mouse2) {

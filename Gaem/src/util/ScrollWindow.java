@@ -1,5 +1,6 @@
 package util;
 
+import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
@@ -15,6 +16,7 @@ import input.InputManager;
 public abstract class ScrollWindow {
 
 	public InputManager im;
+//	public ArrayList<TextBox> tbList;
 
 	protected int x, y, width, height;
 
@@ -42,6 +44,8 @@ public abstract class ScrollWindow {
 		// drawing outline
 		g.setColor(Color.BLACK);
 		g.drawRect(x - 1, y - 1, width + 1, height + 1);
+
+		g.drawRect(x - 1, y - 1, width - 9, height+1);
 
 		// drawing img
 		g.drawImage(b, x, y, null);
