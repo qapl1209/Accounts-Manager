@@ -17,6 +17,8 @@ import stuff.Entry;
 import util.GraphicsTools;
 import util.ScrollWindow;
 import util.TextBox;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MenuState extends State{
@@ -46,7 +48,7 @@ public class MenuState extends State{
 
 		im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
 		tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
-
+		tb3 = new TextBox(600, 58, 10, 0, "Balance", font2);
 		sw = new AccountsScrollWindow(30, 90, 740, 420, 480);
 		
 	}
@@ -76,9 +78,8 @@ public class MenuState extends State{
 		im.draw(g);
 		tb1.draw(g);
 		tb2.draw(g);
-//		tb3.draw(g);
+		tb3.draw(g);
 		sw.draw(g);
-		
 	}
 
 	@Override
@@ -156,7 +157,9 @@ class AccountsScrollWindow extends ScrollWindow{
 			int y = i*MenuState.accountViewHeight;
 			int x = 0;
 			g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
-			g.drawString(MenuState.accountList.get(i).name, x+10, y+10);
+			g.drawString(MenuState.accountList.get(i).name, x+5, y+20);
+			DecimalFormat df = new DecimalFormat("#.##");
+			g.drawString(df.format(MenuState.accountList.get(i).balance), x+568, y+20);
 		}
 
 		this.setRealHeight(MenuState.accountList.size()*MenuState.accountViewHeight);
@@ -171,11 +174,6 @@ class AccountsScrollWindow extends ScrollWindow{
 			if(which == null) {
 				return;
 			}
-			
-			switch(which) {
-
-			}
-
 
 		}
 	}

@@ -2,26 +2,21 @@ package state;
 
 import input.Button;
 import input.InputManager;
-import input.TextField;
 import main.MainPanel;
-import stuff.Account;
-import stuff.Entry;
 import util.GraphicsTools;
 import util.TextBox;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
-public class AccountPromptState extends State{
+public class EntryPromptState extends State{
 
     InputManager im;
-
     TextBox tb1;
 
-    public AccountPromptState(StateManager gsm) {
+    public EntryPromptState(StateManager gsm) {
         super(gsm);
 
         im = new InputManager();
@@ -32,12 +27,14 @@ public class AccountPromptState extends State{
 
 //        TextField tf = new TextField(300, 300, 200, "Enter Account Name:", "tf_name");
 
-        im.addInput(new TextField(300, 300, 200, "Enter Account Name:", "tf_name"));
+        im.addInput(new input.TextField(200, 300, 200, "Enter Entry Name:", "tf_name"));
+        im.addInput(new input.TextField(200, 200, 120, "Enter Date (ex:12/31):", "tf_date"));
+        im.addInput(new input.TextField(200, 400, 150, "Enter Value (no commas):", "tf_val"));
         im.addInput(new Button(400, 400, 50, 50, "Enter", "btn_enter"));
     }
 
     @Override
-    public void init(){
+    public void init() {
 
     }
 
@@ -48,32 +45,43 @@ public class AccountPromptState extends State{
 
     @Override
     public void draw(Graphics g) {
-        im.draw(g);
         tb1.draw(g);
+        im.draw(g);
     }
 
     @Override
-    public void keyPressed(KeyEvent arg0) {im.keyPressed(arg0);}
+    public void keyPressed(KeyEvent arg0) {
+        im.keyPressed(arg0);
+    }
 
     @Override
-    public void keyReleased(KeyEvent arg0) {im.keyReleased(arg0);}
+    public void keyReleased(KeyEvent arg0) {
+        im.keyReleased(arg0);
+    }
 
     @Override
-    public void keyTyped(KeyEvent arg0) {im.keyTyped(arg0);}
+    public void keyTyped(KeyEvent arg0) {
+        im.keyTyped(arg0);
+    }
 
     @Override
     public void mouseClicked(MouseEvent arg0) {
-        String which = im.mouseClicked(arg0);
+        String which  = im.mouseClicked(arg0);
 
         switch(which){
             case "btn_enter":
-                String in = im.getText("tf_name");
-                if(!in.equals("")){
-                    this.gsm.states.pop();
-                    MenuState m = (MenuState) this.gsm.states.peek();
-                    m.addAccount(in);
+                String name = im.getText("tf_name");
+                String value = im.getText("tf_value");
+                String temp = im.getText("tf_date");
+                String[] a = temp.split("/");
+                int month = Integer.parseInt(a[0]);
+                int day = Integer.parseInt(a[1]);
+
+                if(!(name.equals("") || month>12 || month < 1 || day > 31 || day < 0)){
+//                    this.gsm.states.pop();
+//                    EntryListState e = (EntryListState) this.gsm.states.peek();
+//                    e.addEntry()
                 }
-                break;
         }
     }
 
@@ -94,7 +102,7 @@ public class AccountPromptState extends State{
 
     @Override
     public void mouseReleased(MouseEvent arg0) {
-        im.mouseReleased(arg0);
+
     }
 
     @Override

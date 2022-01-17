@@ -4,13 +4,13 @@ import java.util.Collections;
 
 public class Account {
     public String name;
-    ArrayList<Entry> entryList;
-    double value;
+    public ArrayList<Entry> entryList;
+    public double balance;
 
     public Account(String name){
         this.name = name;
-        entryList = new ArrayList<Entry>();
-        value = 0;
+        entryList = new ArrayList<>();
+        balance = 0;
     }
 
     boolean containsName(String name){
@@ -24,8 +24,8 @@ public class Account {
         this.name = name;
     }
 
-    public void addEntry(String name, double value, int day, int month, int year){
-        entryList.add(new Entry(name, value, day, month, year));
+    public void addEntry(String name, double balance, int day, int month, int year){
+        entryList.add(new Entry(name, balance, day, month, year));
         Collections.sort(entryList, new DateComparator());
     }
 
@@ -42,8 +42,8 @@ public class Account {
         }
     }
 
-    public void setValue(double value){
-        this.value = value;
+    public void setBalance(double balance){
+        this.balance = balance;
     }
 }
 

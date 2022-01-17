@@ -24,6 +24,8 @@ public class StateManager {
 		states = new Stack<State>();
 		states.push(new MenuState(this));
 //		states.push(new AccountPromptState(this));
+//		states.push(new EntryListState(this, new Account("ooga")));
+//		states.push(new EntryPromptState(this));
 	}
 	
 	public void tick(Point mouse2) {
@@ -37,8 +39,8 @@ public class StateManager {
 		
 		g.setColor(Color.BLACK);
 		g.setFont(new Font("Dialogue", Font.PLAIN, 12));
-		g.drawString((int) (mouse.x) + "", (int) (mouse.x - 30), (int) (mouse.y - 10));
-		g.drawString((int) (mouse.y) + "", (int) (mouse.x), (int) (mouse.y - 10));
+//		g.drawString((int) (mouse.x) + "", (int) (mouse.x - 30), (int) (mouse.y - 10));
+//		g.drawString((int) (mouse.y) + "", (int) (mouse.x), (int) (mouse.y - 10));
 		
 	}
 	
