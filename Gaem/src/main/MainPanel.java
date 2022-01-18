@@ -30,7 +30,7 @@ public class MainPanel extends JPanel implements Runnable, KeyListener, MouseLis
 	
 	public Point mouse = new Point(0, 0);
 	
-	private StateManager gsm;
+	static public StateManager gsm;
 	//private Images images;
 
 	public MainPanel() {

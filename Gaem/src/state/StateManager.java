@@ -15,7 +15,7 @@ import java.awt.event.MouseWheelEvent;
 
 public class StateManager {
 	
-	public Stack<State> states;
+	static public Stack<State> states;
 	
 	private Point mouse;
 	
@@ -24,7 +24,7 @@ public class StateManager {
 		states = new Stack<State>();
 		states.push(new MenuState(this));
 //		states.push(new AccountPromptState(this));
-//		states.push(new EntryListState(this, new Account("ooga")));
+		states.push(new EntryListState(this, new Account("ooga")));
 //		states.push(new EntryPromptState(this));
 	}
 	

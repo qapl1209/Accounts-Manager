@@ -4,6 +4,7 @@ import input.Button;
 import input.InputManager;
 import main.MainPanel;
 import stuff.Account;
+import stuff.Entry;
 import util.GraphicsTools;
 import util.ScrollWindow;
 import util.TextBox;
@@ -13,11 +14,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class EntryListState extends State{
     InputManager im;
 
-    Account currentAccount;
+    static Account currentAccount;
 
     TextBox tb1;
     TextBox tb2;
@@ -25,7 +28,7 @@ public class EntryListState extends State{
     TextBox tb4;
 
     EntriesScrollWindow sw;
-    public EntryListState(StateManager gsm, Account currentAccount) {
+    public EntryListState(StateManager gsm, Account currentAccount) { //String name, ArrayList<Entry> entryList, double balance
         super(gsm);
         this.currentAccount=currentAccount;
         im = new InputManager();
@@ -39,7 +42,7 @@ public class EntryListState extends State{
 
         im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
         tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
-        tb3 = new TextBox(600, 58, 10, 0, "Value", font2);
+        tb3 = new TextBox(580, 58, 10, 0, "Value", font2);
         tb4 = new TextBox(700, 58, 10, 0, "Date", font2);
 
         sw = new EntriesScrollWindow(30, 90, 740, 420, 480);
@@ -93,7 +96,8 @@ public class EntryListState extends State{
 
         switch(which){
             case "btn_add":
-
+                gsm.states.push(new EntryPromptState(gsm));
+                break;
         }
     }
 
@@ -134,5 +138,18 @@ class EntriesScrollWindow extends ScrollWindow {
     @Override
     public void repaint(Graphics g, BufferedImage b) {
         im.draw(g);
+        g.setColor(Color.black);
+        for(int i = 0;i< EntryListState.currentAccount.entryList.size();i++){
+            ArrayList<Entry> e = EntryListState.currentAccount.entryList;
+            int y = i*MenuState.accountViewHeight;
+            int x = 0;
+            g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
+            g.drawString(e.get(i).name, x+5, y+20);
+            DecimalFormat df = new DecimalFormat("#.##");
+            g.drawString(df.format(e.get(i).value), x+560, y+20);
+            g.drawString(e.get(i).month+"/"+e.get(i).day+"/"+e.get(i).year, x+655, y+20);
+        }
+
+        this.setRealHeight(EntryListState.currentAccount.entryList.size()*MenuState.accountViewHeight);
     }
 }

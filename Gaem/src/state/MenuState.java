@@ -21,6 +21,8 @@ import util.TextBox;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import static main.MainPanel.gsm;
+
 public class MenuState extends State{
 	
 	InputManager im;
@@ -173,6 +175,13 @@ class AccountsScrollWindow extends ScrollWindow{
 			
 			if(which == null) {
 				return;
+			}
+
+			for(Account a : MenuState.accountList){
+				if(a.name.equals(which)){
+					StateManager.states.push(new EntryListState(gsm, a));
+					break;
+				}
 			}
 
 		}
