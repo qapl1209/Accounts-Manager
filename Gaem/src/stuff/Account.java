@@ -29,8 +29,8 @@ public class Account {
         Collections.sort(entryList, new DateComparator());
     }
 
-    public void editEntry(){
-
+    public void editEntry(String name){
+        this.name=name;
     }
 
     public void deleteEntry(String name){

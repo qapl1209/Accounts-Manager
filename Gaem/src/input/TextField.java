@@ -245,4 +245,8 @@ public class TextField extends Input{
 		}
 	}
 
+	public void setHintText(String txt){
+		this.hintText=hintText;
+	}
+
 }

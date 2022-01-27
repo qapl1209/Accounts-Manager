@@ -95,7 +95,12 @@ public class Button extends Input{
 			this.img = buttonImg;
 		}
 	}
-	
+
+	public void setParameters(int x, int y){
+		this.x=x;
+		this.y=y;
+	}
+
 	public void draw(Graphics g) {
 		if(!this.drawImage) {
 			GraphicsTools.enableTextAntialiasing(g);

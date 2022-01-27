@@ -34,6 +34,7 @@ public class EntryPromptState extends State{
         im.addInput(new input.TextField(200, 200, 120, "Enter Date (ex:12/31/2022):", "tf_date"));
         im.addInput(new input.TextField(200, 400, 150, "Enter Value (no commas):", "tf_val"));
         im.addInput(new Button(400, 400, 50, 50, "Enter", "btn_enter"));
+        im.addInput(new Button(20, 20, 40, 20, "<", "btn_back"));
     }
 
     @Override
@@ -89,6 +90,9 @@ public class EntryPromptState extends State{
 //                    EntryListState e = (EntryListState) this.gsm.states.peek();
                     EntryListState.currentAccount.entryList.add(new Entry(name, value, day, month, year));
                 }
+                break;
+            case "btn_back":
+                this.gsm.states.pop();
                 break;
         }
     }

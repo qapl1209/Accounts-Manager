@@ -39,6 +39,23 @@ public class InputManager {
 		}
 		return -1;
 	}
+
+	public void removeInput(String name){
+		for(int i = 0; i < inputs.size(); i++) {
+			if(inputs.get(i).name.equals(name)){
+				inputs.remove(i);
+			}
+		}
+	}
+
+	public Input getInput(String name){
+		for(int i = 0; i < inputs.size(); i++){
+			if(inputs.get(i).name.equals(name)){
+				return inputs.get(i);
+			}
+		}
+		return null;
+	}
 	
 	//sets value of slider button
 	public void setVal(String name, int val) {

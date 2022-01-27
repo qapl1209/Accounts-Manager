@@ -4,24 +4,21 @@ import input.Button;
 import input.InputManager;
 import input.TextField;
 import main.MainPanel;
-import stuff.Account;
-import stuff.Entry;
 import util.GraphicsTools;
 import util.TextBox;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
-public class AccountPromptState extends State{
+public class AccountCreationState extends State{
 
     InputManager im;
 
     TextBox tb1;
 
-    public AccountPromptState(StateManager gsm) {
+    public AccountCreationState(StateManager gsm) {
         super(gsm);
 
         im = new InputManager();
@@ -34,6 +31,7 @@ public class AccountPromptState extends State{
 
         im.addInput(new TextField(300, 300, 200, "Enter Account Name:", "tf_name"));
         im.addInput(new Button(400, 400, 50, 50, "Enter", "btn_enter"));
+        im.addInput(new Button(20, 20, 40, 20, "<", "btn_back"));
     }
 
     @Override
@@ -68,11 +66,19 @@ public class AccountPromptState extends State{
         switch(which){
             case "btn_enter":
                 String in = im.getText("tf_name");
+                boolean nameExists = false;
+                for(int i = 0; i < MenuState.accountList.size();i++){
+//                    if(MenuState)
+                }
+
                 if(!in.equals("")){
                     this.gsm.states.pop();
                     MenuState m = (MenuState) this.gsm.states.peek();
                     m.addAccount(in);
                 }
+                break;
+            case "btn_back":
+                this.gsm.states.pop();
                 break;
         }
     }

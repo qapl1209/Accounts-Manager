@@ -27,6 +27,7 @@ public class EntryListState extends State{
     TextBox tb3;
     TextBox tb4;
 
+    TextBox tb5;
     EntriesScrollWindow sw;
     public EntryListState(StateManager gsm, Account currentAccount) { //String name, ArrayList<Entry> entryList, double balance
         super(gsm);
@@ -36,9 +37,14 @@ public class EntryListState extends State{
         String accountName = currentAccount.name;
 
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
+        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
         Font font2 = new Font("Dialogue", Font.PLAIN, 13);
         int textWidth = GraphicsTools.calculateTextWidth(accountName, font1);
         tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, accountName, font1);
+        DecimalFormat df = new DecimalFormat("#.##");
+        textWidth = GraphicsTools.calculateTextWidth("$"+df.format(currentAccount.balance), font3);
+        tb5 = new TextBox(MainPanel.WIDTH/2-textWidth/2-7, 35, 400, 400, "$" + currentAccount.balance, font3);
+
 
         im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
         tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
@@ -46,6 +52,7 @@ public class EntryListState extends State{
         tb4 = new TextBox(700, 58, 10, 0, "Date", font2);
 
         sw = new EntriesScrollWindow(30, 90, 740, 420, 480);
+        im.addInput(new Button(20, 20, 40, 20, "<", "btn_back"));
     }
 
     @Override
@@ -66,6 +73,7 @@ public class EntryListState extends State{
         tb2.draw(g);
         tb3.draw(g);
         tb4.draw(g);
+        tb5.draw(g);
         sw.draw(g);
     }
 
@@ -94,9 +102,12 @@ public class EntryListState extends State{
             return;
         }
 
-        switch(which){
+        switch(which) {
             case "btn_add":
                 gsm.states.push(new EntryPromptState(gsm));
+                break;
+            case "btn_back":
+                this.gsm.states.pop();
                 break;
         }
     }
