@@ -27,6 +27,8 @@ public class EntryListState extends State{
     TextBox tb3;
     TextBox tb4;
 
+    DecimalFormat df = new DecimalFormat("#.##");
+
     TextBox tb5;
     EntriesScrollWindow sw;
     public EntryListState(StateManager gsm, Account currentAccount) { //String name, ArrayList<Entry> entryList, double balance
@@ -37,13 +39,13 @@ public class EntryListState extends State{
         String accountName = currentAccount.name;
 
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
-        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
         Font font2 = new Font("Dialogue", Font.PLAIN, 13);
-        int textWidth = GraphicsTools.calculateTextWidth(accountName, font1);
-        tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, accountName, font1);
-        DecimalFormat df = new DecimalFormat("#.##");
-        textWidth = GraphicsTools.calculateTextWidth("$"+df.format(currentAccount.balance), font3);
-        tb5 = new TextBox(MainPanel.WIDTH/2-textWidth/2-7, 35, 400, 400, "$" + currentAccount.balance, font3);
+        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
+
+//        int textWidth = GraphicsTools.calculateTextWidth(accountName, font1);
+//        tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, accountName, font1);
+//        textWidth = GraphicsTools.calculateTextWidth("$"+df.format(currentAccount.balance), font3);
+//        tb5 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 35, 400, 400, "$" + currentAccount.balance, font3);
 
 
         im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
@@ -69,12 +71,35 @@ public class EntryListState extends State{
     @Override
     public void draw(Graphics g) {
         im.draw(g);
-        tb1.draw(g);
+//        tb1.draw(g);
         tb2.draw(g);
         tb3.draw(g);
         tb4.draw(g);
-        tb5.draw(g);
+        Font font1 = new Font("Dialogue", Font.BOLD, 24);
+
+        String accountName = currentAccount.name;
+        int textWidth = GraphicsTools.calculateTextWidth(accountName, font1);
+        g.setFont(font1);
+        g.drawString(currentAccount.name, MainPanel.WIDTH/2-textWidth/2, 24);
+
+        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
+
+        currentAccount.balance=this.sumEntries();
+        String temp = currentAccount.balance>=0 ? "$"+df.format(currentAccount.balance):"-$"+df.format(Math.abs(currentAccount.balance));
+        textWidth = GraphicsTools.calculateTextWidth(temp, font3);
+
+        g.setFont(font3);
+        g.drawString(temp, MainPanel.WIDTH/2-textWidth/2,52);
+
         sw.draw(g);
+    }
+
+    public double sumEntries(){
+        double sum = 0;
+        for(Entry e: currentAccount.entryList){
+            sum+=e.value;
+        }
+        return sum;
     }
 
     @Override
@@ -157,10 +182,9 @@ class EntriesScrollWindow extends ScrollWindow {
             g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
             g.drawString(e.get(i).name, x+5, y+20);
             DecimalFormat df = new DecimalFormat("#.##");
-            g.drawString(df.format(e.get(i).value), x+560, y+20);
+            g.drawString("$"+df.format(e.get(i).value), x+560, y+20);
             g.drawString(e.get(i).month+"/"+e.get(i).day+"/"+e.get(i).year, x+655, y+20);
         }
-
         this.setRealHeight(EntryListState.currentAccount.entryList.size()*MenuState.accountViewHeight);
     }
 }

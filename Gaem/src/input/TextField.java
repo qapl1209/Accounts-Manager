@@ -228,6 +228,9 @@ public class TextField extends Input{
 			if (k == KeyEvent.VK_SPACE) {
 				this.text += " ";
 			}
+			if(k == KeyEvent.VK_MINUS){
+				this.text += "-";
+			}
 			char key = arg0.getKeyChar();
 			if (Character.isLetterOrDigit(key) || this.specialChars.contains((key + "").substring(0, 1))) {
 				this.text += key;

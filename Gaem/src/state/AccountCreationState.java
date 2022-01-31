@@ -4,6 +4,7 @@ import input.Button;
 import input.InputManager;
 import input.TextField;
 import main.MainPanel;
+import stuff.Account;
 import util.GraphicsTools;
 import util.TextBox;
 
@@ -17,6 +18,8 @@ public class AccountCreationState extends State{
     InputManager im;
 
     TextBox tb1;
+    TextBox tb2;
+    boolean toggled = false;
 
     public AccountCreationState(StateManager gsm) {
         super(gsm);
@@ -24,10 +27,10 @@ public class AccountCreationState extends State{
         im = new InputManager();
 
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
+        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
         int textWidth = GraphicsTools.calculateTextWidth("Account Creation", font1);
         tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Account Creation", font1);
-
-//        TextField tf = new TextField(300, 300, 200, "Enter Account Name:", "tf_name");
+        tb2 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 500, 400, 400, "Please enter a valid name!", font3);
 
         im.addInput(new TextField(300, 300, 200, "Enter Account Name:", "tf_name"));
         im.addInput(new Button(400, 400, 50, 50, "Enter", "btn_enter"));
@@ -48,6 +51,9 @@ public class AccountCreationState extends State{
     public void draw(Graphics g) {
         im.draw(g);
         tb1.draw(g);
+        if(toggled){
+            tb2.draw(g);
+        }
     }
 
     @Override
@@ -62,25 +68,34 @@ public class AccountCreationState extends State{
     @Override
     public void mouseClicked(MouseEvent arg0) {
         String which = im.mouseClicked(arg0);
-
+        toggled = false;
         switch(which){
             case "btn_enter":
                 String in = im.getText("tf_name");
-                boolean nameExists = false;
-                for(int i = 0; i < MenuState.accountList.size();i++){
-//                    if(MenuState)
-                }
+                boolean nameExists = containsName(in);
 
-                if(!in.equals("")){
+                if(!in.equals("")&&!nameExists){
                     this.gsm.states.pop();
                     MenuState m = (MenuState) this.gsm.states.peek();
                     m.addAccount(in);
+                }
+                else{
+                    toggled = true;
                 }
                 break;
             case "btn_back":
                 this.gsm.states.pop();
                 break;
         }
+    }
+
+    public boolean containsName(String name){
+        for(Account a: MenuState.accountList){
+            if(a.name.equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

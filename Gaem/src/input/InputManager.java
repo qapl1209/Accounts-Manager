@@ -99,12 +99,13 @@ public class InputManager {
 	}
 	
 	public String mouseClicked(MouseEvent arg0) {
+		String ans = null;
 		for(Input i : inputs) {
 			if(i.clicked(arg0)) {
-				return i.name;
+				ans = i.name;
 			}
 		}
-		return null;
+		return ans;
 	}
 	
 	public void keyPressed(KeyEvent arg0) {

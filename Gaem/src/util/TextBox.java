@@ -66,7 +66,7 @@ public class TextBox {
 		}
 		lines.add(line);
 	}
-	
+
 	public void draw(Graphics g) {
 		//g.drawRect(x, y, width, height);
 		int pointer = y + font.getSize();

@@ -2,6 +2,7 @@ package state;
 
 import input.Button;
 import input.InputManager;
+import input.ToggleButton;
 import main.MainPanel;
 import stuff.Account;
 import stuff.Entry;
@@ -49,7 +50,12 @@ public class EntryPromptState extends State{
 
     @Override
     public void draw(Graphics g) {
-        tb1.draw(g);
+        Font font1 = new Font("Dialogue", Font.BOLD, 24);
+
+        int textWidth = GraphicsTools.calculateTextWidth("Entry Creation", font1);
+        g.setFont(font1);
+        g.drawString("Entry Creation", MainPanel.WIDTH/2-textWidth/2, 24);
+
         im.draw(g);
     }
 
@@ -71,20 +77,17 @@ public class EntryPromptState extends State{
     @Override
     public void mouseClicked(MouseEvent arg0) {
         String which  = im.mouseClicked(arg0);
-
         switch(which){
             case "btn_enter":
                 String name = im.getText("tf_name");
                 double value = Double.parseDouble(im.getText("tf_val"));
                 String temp = im.getText("tf_date");
-                System.out.println(name +" "+value + " "+temp);
                 String[] a = temp.split("/", 3);
 
                 int month = Integer.parseInt(a[0]);
                 int day = Integer.parseInt(a[1]);
                 int year = Integer.parseInt(a[2]);
 
-                System.out.println(day +" "+month+" "+year);
                 if(!(name.equals("") || month>12 || month < 1 || day > 31 || day < 0)){
                     this.gsm.states.pop();
 //                    EntryListState e = (EntryListState) this.gsm.states.peek();
