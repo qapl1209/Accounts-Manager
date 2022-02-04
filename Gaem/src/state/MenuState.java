@@ -16,8 +16,11 @@ import util.GraphicsTools;
 import util.ScrollWindow;
 import util.TextBox;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import static main.MainPanel.gsm;
 
@@ -53,15 +56,42 @@ public class MenuState extends State{
 		
 	}
 
+	public static void loadData(String file) throws FileNotFoundException {
+		File in = new File(file);
+		Scanner scan = new Scanner(in);
+
+		while(scan.hasNextLine()){
+			Scanner s = new Scanner(scan.nextLine());
+			String name = s.next();
+			s.next(); //skip account value, as is not needed and automatically calc'ed w/ entries
+			int size = Integer.parseInt(s.next());
+			s.close();
+
+			Account a = addAccount(name);
+
+			for(int i = 0; i < size; i++){
+				s = new Scanner(scan.nextLine());
+				String eName = s.next();
+				double eVal = Double.parseDouble(s.next());
+				int month = Integer.parseInt(s.next());
+				int day = Integer.parseInt(s.next());
+				int year = Integer.parseInt(s.next());
+			}
+		}
+	}
+
+
 	public static void setComponentName(String target, String name){
 		sw.setComponentName(target, name);
 	}
 
-	public void addAccount(String name){
-		accountList.add(new Account(name));
+	public static Account addAccount(String name){
+		Account a = new Account(name);
+		accountList.add(a);
 		sw.im.addInput(new Button(630, (accountList.size()-1)*accountViewHeight, 80, accountViewHeight, "View", name));
 		sw.im.addInput(new Button(710, (accountList.size()-1)*accountViewHeight, 20, 20, "x", name+"_del"));
 		sw.im.addInput(new Button(710, (accountList.size()-1)*accountViewHeight+20, 20, 40, "...", name+"_edit"));
+		return a;
 	}
 
 	public void deleteAccount(String name){

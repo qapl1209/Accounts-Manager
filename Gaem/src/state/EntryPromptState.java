@@ -5,6 +5,7 @@ import input.InputManager;
 import input.ToggleButton;
 import main.MainPanel;
 import stuff.Account;
+import stuff.DateComparator;
 import stuff.Entry;
 import util.GraphicsTools;
 import util.TextBox;
@@ -31,9 +32,9 @@ public class EntryPromptState extends State{
 
 //        TextField tf = new TextField(300, 300, 200, "Enter Account Name:", "tf_name");
 
-        im.addInput(new input.TextField(200, 300, 200, "Enter Entry Name:", "tf_name"));
+        im.addInput(new input.TextField(200, 250, 200, "Enter Entry Name:", "tf_name"));
         im.addInput(new input.TextField(200, 200, 120, "Enter Date (ex:12/31/2022):", "tf_date"));
-        im.addInput(new input.TextField(200, 400, 150, "Enter Value (no commas):", "tf_val"));
+        im.addInput(new input.TextField(200, 300, 150, "Enter Value (no commas):", "tf_val"));
         im.addInput(new Button(400, 400, 50, 50, "Enter", "btn_enter"));
         im.addInput(new Button(20, 20, 40, 20, "<", "btn_back"));
     }
@@ -92,6 +93,7 @@ public class EntryPromptState extends State{
                     this.gsm.states.pop();
 //                    EntryListState e = (EntryListState) this.gsm.states.peek();
                     EntryListState.currentAccount.entryList.add(new Entry(name, value, day, month, year));
+                    EntryListState.currentAccount.entryList.sort(new DateComparator());
                 }
                 break;
             case "btn_back":

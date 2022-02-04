@@ -3,14 +3,15 @@ import java.util.Comparator;
 public class DateComparator implements Comparator<Entry>{
     @Override
     public int compare(Entry a, Entry b){
+        //sorts entries by date, comparator
         if(a.year==b.year){
             if(a.month==b.month){
-                return a.day-b.day;
+                return b.day-a.day;
             }
             else{
-                return a.month-b.month;
+                return b.month-a.month;
             }
         }
-        return a.year-b.year;
+        return b.year-a.year;
     }
 }
