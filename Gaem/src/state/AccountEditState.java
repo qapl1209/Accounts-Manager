@@ -28,8 +28,8 @@ public class AccountEditState extends State{
         im = new InputManager();
 
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
-        int textWidth = GraphicsTools.calculateTextWidth("Account Edit", font1);
-        tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Account Edit", font1);
+        int textWidth = GraphicsTools.calculateTextWidth("Edit Account", font1);
+        tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Edit Account", font1);
 
         im.addInput(new TextField(300, 300, 200, "New Account Name:", "tf_name"));
         im.addInput(new Button(400, 400, 50, 50, "Enter", "btn_enter"));

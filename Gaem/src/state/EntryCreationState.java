@@ -15,12 +15,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
-public class EntryPromptState extends State{
+public class EntryCreationState extends State{
 
     InputManager im;
     TextBox tb1;
 
-    public EntryPromptState(StateManager gsm)
+    public EntryCreationState(StateManager gsm)
     {
         super(gsm);
 
@@ -89,17 +89,25 @@ public class EntryPromptState extends State{
                 int day = Integer.parseInt(a[1]);
                 int year = Integer.parseInt(a[2]);
 
-                if(!(name.equals("") || month>12 || month < 1 || day > 31 || day < 0)){
+                if(!(name.equals("") || month>12 || month < 1 || day > 31 || day < 0 || containsName(name))){
                     this.gsm.states.pop();
-//                    EntryListState e = (EntryListState) this.gsm.states.peek();
-                    EntryListState.currentAccount.entryList.add(new Entry(name, value, day, month, year));
-                    EntryListState.currentAccount.entryList.sort(new DateComparator());
+                    EntryListState e = (EntryListState) this.gsm.states.peek();
+                    e.addEntry(name, value, day, month, year);
                 }
                 break;
             case "btn_back":
                 this.gsm.states.pop();
                 break;
         }
+    }
+
+    public boolean containsName(String name){
+        for(Entry e: EntryListState.currentAccount.entryList){
+            if(e.name.equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

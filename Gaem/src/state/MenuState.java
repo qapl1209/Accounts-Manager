@@ -98,6 +98,7 @@ public class MenuState extends State{
 		for(int i=0;i<accountList.size();i++){
 			if(accountList.get(i).name.equals(name)){
 				accountList.remove(i);
+				break;
 			}
 		}
 		sw.im.removeInput(name);
@@ -246,7 +247,6 @@ class AccountsScrollWindow extends ScrollWindow{
 					m.deleteAccount(a.name);
 				}
 				else if((a.name+"_edit").equals(which)){
-//					MenuState m = (MenuState) StateManager.states.peek();
 					StateManager.states.push(new AccountEditState(gsm, a));
 				}
 			}

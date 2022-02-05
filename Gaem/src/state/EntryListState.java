@@ -4,6 +4,7 @@ import input.Button;
 import input.InputManager;
 import main.MainPanel;
 import stuff.Account;
+import stuff.DateComparator;
 import stuff.Entry;
 import util.GraphicsTools;
 import util.ScrollWindow;
@@ -21,6 +22,7 @@ public class EntryListState extends State{
     InputManager im;
 
     static Account currentAccount;
+    static EntriesScrollWindow sw;
 
     TextBox tb1;
     TextBox tb2;
@@ -30,7 +32,6 @@ public class EntryListState extends State{
     DecimalFormat df = new DecimalFormat("#.##");
 
     TextBox tb5;
-    EntriesScrollWindow sw;
     public EntryListState(StateManager gsm, Account currentAccount) { //String name, ArrayList<Entry> entryList, double balance
         super(gsm);
         this.currentAccount=currentAccount;
@@ -42,12 +43,6 @@ public class EntryListState extends State{
         Font font2 = new Font("Dialogue", Font.PLAIN, 13);
         Font font3 = new Font("Dialogue", Font.PLAIN, 18);
 
-//        int textWidth = GraphicsTools.calculateTextWidth(accountName, font1);
-//        tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, accountName, font1);
-//        textWidth = GraphicsTools.calculateTextWidth("$"+df.format(currentAccount.balance), font3);
-//        tb5 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 35, 400, 400, "$" + currentAccount.balance, font3);
-
-
         im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
         tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
         tb3 = new TextBox(580, 58, 10, 0, "Value", font2);
@@ -55,6 +50,32 @@ public class EntryListState extends State{
 
         sw = new EntriesScrollWindow(30, 90, 740, 420, 480);
         im.addInput(new Button(20, 20, 40, 20, "<", "btn_back"));
+    }
+
+    public static void addEntry(String name, double value, int day, int month, int year){
+        sw.im.addInput(new Button(710, 400, 20, 20, "x", name+"_del")); //currently initializes at arbitrary position
+        currentAccount.entryList.add(new Entry(name, value, day, month, year));
+        currentAccount.entryList.sort(new DateComparator());
+
+    }
+
+    public void deleteEntry(String name){
+        ArrayList<Entry> eList = EntryListState.currentAccount.entryList;
+        for(int i=0;i<eList.size();i++){
+            if(eList.get(i).name.equals(name)){
+                eList.remove(i);
+                break;
+            }
+        }
+        sw.im.removeInput(name+"_del");
+    }
+
+    public double sumEntries(){
+        double sum = 0;
+        for(Entry e: currentAccount.entryList){
+            sum+=e.value;
+        }
+        return sum;
     }
 
     @Override
@@ -94,14 +115,6 @@ public class EntryListState extends State{
         sw.draw(g);
     }
 
-    public double sumEntries(){
-        double sum = 0;
-        for(Entry e: currentAccount.entryList){
-            sum+=e.value;
-        }
-        return sum;
-    }
-
     @Override
     public void keyPressed(KeyEvent arg0) {
         im.keyPressed(arg0);
@@ -129,7 +142,7 @@ public class EntryListState extends State{
 
         switch(which) {
             case "btn_add":
-                gsm.states.push(new EntryPromptState(gsm));
+                gsm.states.push(new EntryCreationState(gsm));
                 break;
             case "btn_back":
                 this.gsm.states.pop();
@@ -184,7 +197,29 @@ class EntriesScrollWindow extends ScrollWindow {
             DecimalFormat df = new DecimalFormat("#.##");
             g.drawString("$"+df.format(e.get(i).value), x+560, y+20);
             g.drawString(e.get(i).month+"/"+e.get(i).day+"/"+e.get(i).year, x+655, y+20);
+
+            Button temp = (Button) im.getInput(e.get(i).name+"_del");
+            temp.setParameters(710, y);
         }
         this.setRealHeight(EntryListState.currentAccount.entryList.size()*MenuState.accountViewHeight);
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent arg0){
+        if(this.containsPoint(mouse)){
+            String which = im.mouseClicked(convertMouseEvent(arg0));
+
+            if(which == null){
+                return;
+            }
+
+            for(Entry e: EntryListState.currentAccount.entryList){
+                if((e.name+"_del").equals(which)){
+                    EntryListState el = (EntryListState) StateManager.states.peek();
+                    el.deleteEntry(e.name);
+                    break;
+                }
+            }
+        }
     }
 }
