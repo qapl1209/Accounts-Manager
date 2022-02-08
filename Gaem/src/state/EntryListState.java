@@ -45,10 +45,15 @@ public class EntryListState extends State{
 
         im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
         tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
-        tb3 = new TextBox(580, 58, 10, 0, "Value", font2);
-        tb4 = new TextBox(700, 58, 10, 0, "Date", font2);
+        tb3 = new TextBox(520, 58, 10, 0, "Value", font2);
+        tb4 = new TextBox(640, 58, 10, 0, "Date", font2);
 
         sw = new EntriesScrollWindow(30, 90, 740, 420, 480);
+        for(Entry e : currentAccount.entryList){
+            sw.im.addInput(new Button(710, 400, 20, 20, "x", e.name+"_del")); //currently initializes at arbitrary position
+            currentAccount.entryList.sort(new DateComparator());
+        }
+
         im.addInput(new Button(20, 20, 40, 20, "<", "btn_back"));
     }
 
@@ -195,8 +200,8 @@ class EntriesScrollWindow extends ScrollWindow {
             g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
             g.drawString(e.get(i).name, x+5, y+20);
             DecimalFormat df = new DecimalFormat("#.##");
-            g.drawString("$"+df.format(e.get(i).value), x+560, y+20);
-            g.drawString(e.get(i).month+"/"+e.get(i).day+"/"+e.get(i).year, x+655, y+20);
+            g.drawString("$"+df.format(e.get(i).value), 500, y+20);
+            g.drawString(e.get(i).month+"/"+e.get(i).day+"/"+e.get(i).year, 595, y+20);
 
             Button temp = (Button) im.getInput(e.get(i).name+"_del");
             temp.setParameters(710, y);

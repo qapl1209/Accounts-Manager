@@ -51,7 +51,7 @@ public class MenuState extends State{
 
 		im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
 		tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
-		tb3 = new TextBox(600, 58, 10, 0, "Balance", font2);
+		tb3 = new TextBox(550, 58, 10, 0, "Balance", font2);
 		sw = new AccountsScrollWindow(30, 90, 740, 420, 480);
 		
 	}
@@ -210,7 +210,7 @@ class AccountsScrollWindow extends ScrollWindow{
 			g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
 			g.drawString(curAccount.name, x+5, y+20);
 			DecimalFormat df = new DecimalFormat("#.##");
-			g.drawString(df.format(curAccount.balance), x+568, y+20);
+			g.drawString("$"+df.format(curAccount.balance), 518, y+20);
 
 			Button temp = (Button) im.getInput(curAccount.name);
 			temp.setParameters(630, y);
