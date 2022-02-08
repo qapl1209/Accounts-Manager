@@ -8,10 +8,8 @@ import java.awt.image.BufferedImage;
 
 import input.*;
 import input.Button;
-import input.TextField;
 import main.MainPanel;
-import stuff.Account;
-import stuff.Entry;
+import classes.Account;
 import util.GraphicsTools;
 import util.ScrollWindow;
 import util.TextBox;

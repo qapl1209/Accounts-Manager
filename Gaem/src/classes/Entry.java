@@ -1,4 +1,4 @@
-package stuff;
+package classes;
 
 public class Entry {
     public String name;

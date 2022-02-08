@@ -38,7 +38,10 @@ public class GraphicsTools {
 		FontMetrics fm = img.getGraphics().getFontMetrics(font);
 		return fm.stringWidth(text);
 	}
-	
+	public static int calculateCenteredX(String text, int center, Font font){
+		return center - calculateTextWidth(text, font)/2;
+	}
+
 	public static void enableTextAntialiasing(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);

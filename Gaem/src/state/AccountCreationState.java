@@ -4,7 +4,7 @@ import input.Button;
 import input.InputManager;
 import input.TextField;
 import main.MainPanel;
-import stuff.Account;
+import classes.Account;
 import util.GraphicsTools;
 import util.TextBox;
 
@@ -28,6 +28,7 @@ public class AccountCreationState extends State{
 
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
         Font font3 = new Font("Dialogue", Font.PLAIN, 18);
+
         int textWidth = GraphicsTools.calculateTextWidth("Account Creation", font1);
         tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Account Creation", font1);
         tb2 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 500, 400, 400, "Please enter a valid name!", font3);

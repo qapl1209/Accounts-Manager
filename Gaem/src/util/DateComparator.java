@@ -1,4 +1,6 @@
-package stuff;
+package util;
+import classes.Entry;
+
 import java.util.Comparator;
 public class DateComparator implements Comparator<Entry>{
     @Override

@@ -2,11 +2,8 @@ package state;
 
 import input.Button;
 import input.InputManager;
-import input.ToggleButton;
 import main.MainPanel;
-import stuff.Account;
-import stuff.DateComparator;
-import stuff.Entry;
+import classes.Entry;
 import util.GraphicsTools;
 import util.TextBox;
 
@@ -19,6 +16,12 @@ public class EntryCreationState extends State{
 
     InputManager im;
     TextBox tb1;
+    TextBox tb2;
+    TextBox tb3;
+
+    boolean togDate = false;
+    boolean togName = false;
+    boolean togNull = false;
 
     public EntryCreationState(StateManager gsm)
     {
@@ -27,8 +30,13 @@ public class EntryCreationState extends State{
         im = new InputManager();
 
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
+        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
+
         int textWidth = GraphicsTools.calculateTextWidth("New Entry", font1);
         tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Account Creation", font1);
+
+        tb2 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 500, 400, 400, "Please enter a valid date!", font3);
+        tb3 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 500, 400, 400, "Double-check entry name!", font3);
 
 //        TextField tf = new TextField(300, 300, 200, "Enter Account Name:", "tf_name");
 
@@ -52,12 +60,23 @@ public class EntryCreationState extends State{
     @Override
     public void draw(Graphics g) {
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
+        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
 
-        int textWidth = GraphicsTools.calculateTextWidth("Entry Creation", font1);
         g.setFont(font1);
+        int textWidth = GraphicsTools.calculateTextWidth("Entry Creation", font1);
         g.drawString("Entry Creation", MainPanel.WIDTH/2-textWidth/2, 24);
-
         im.draw(g);
+
+        g.setFont(font3);
+        textWidth = GraphicsTools.calculateTextWidth("Please enter a valid date!", font3);
+        if(togDate) g.drawString("Please enter a valid date!", MainPanel.WIDTH/2-textWidth/2, 500);
+
+        textWidth = GraphicsTools.calculateTextWidth("Double-check entry name!", font3);
+        if(togName) g.drawString("Double-check entry name!", MainPanel.WIDTH/2-textWidth/2, 500);
+
+        textWidth = GraphicsTools.calculateTextWidth("Fill in all boxes properly!", font3);
+        if(togNull) g.drawString("Fill in all boxes properly!", MainPanel.WIDTH/2-textWidth/2, 500);
+
     }
 
     @Override
@@ -78,22 +97,37 @@ public class EntryCreationState extends State{
     @Override
     public void mouseClicked(MouseEvent arg0) {
         String which  = im.mouseClicked(arg0);
+        togDate=togName=togNull=false;
+
         switch(which){
             case "btn_enter":
-                String name = im.getText("tf_name");
-                double value = Double.parseDouble(im.getText("tf_val"));
-                String temp = im.getText("tf_date");
-                String[] a = temp.split("/", 3);
+                //error handling
+                try {
+                    String name = im.getText("tf_name");
+                    double value = Double.parseDouble(im.getText("tf_val"));
+                    String temp = im.getText("tf_date");
+                    String[] a = temp.split("/", 3);
 
-                int month = Integer.parseInt(a[0]);
-                int day = Integer.parseInt(a[1]);
-                int year = Integer.parseInt(a[2]);
 
-                if(!(name.equals("") || month>12 || month < 1 || day > 31 || day < 0 || containsName(name))){
-                    this.gsm.states.pop();
-                    EntryListState e = (EntryListState) this.gsm.states.peek();
-                    e.addEntry(name, value, day, month, year);
+                    int month = Integer.parseInt(a[0]);
+                    int day = Integer.parseInt(a[1]);
+                    int year = Integer.parseInt(a[2]);
+                    System.out.println(year);
+                    boolean validDate = !(month > 12 || month < 1 || day > 31 || day < 0);
+                    boolean validName = !(name.equals("") || containsName(name));
+
+                    if (!validDate) togDate = true;
+                    else if (!validName) togName = true;
+                    else {
+                        this.gsm.states.pop();
+                        EntryListState e = (EntryListState) this.gsm.states.peek();
+                        e.addEntry(name, value, day, month, year);
+                    }
                 }
+                catch(Exception e) {
+                    togNull = true;
+                }
+
                 break;
             case "btn_back":
                 this.gsm.states.pop();

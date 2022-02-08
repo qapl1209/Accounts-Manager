@@ -3,9 +3,9 @@ package state;
 import input.Button;
 import input.InputManager;
 import main.MainPanel;
-import stuff.Account;
-import stuff.DateComparator;
-import stuff.Entry;
+import classes.Account;
+import util.DateComparator;
+import classes.Entry;
 import util.GraphicsTools;
 import util.ScrollWindow;
 import util.TextBox;
@@ -18,13 +18,15 @@ import java.awt.image.BufferedImage;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import static util.GraphicsTools.calculateCenteredX;
+import static util.GraphicsTools.calculateTextWidth;
+
 public class EntryListState extends State{
     InputManager im;
 
     static Account currentAccount;
     static EntriesScrollWindow sw;
 
-    TextBox tb1;
     TextBox tb2;
     TextBox tb3;
     TextBox tb4;
@@ -104,7 +106,7 @@ public class EntryListState extends State{
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
 
         String accountName = currentAccount.name;
-        int textWidth = GraphicsTools.calculateTextWidth(accountName, font1);
+        int textWidth = calculateTextWidth(accountName, font1);
         g.setFont(font1);
         g.drawString(currentAccount.name, MainPanel.WIDTH/2-textWidth/2, 24);
 
@@ -112,7 +114,7 @@ public class EntryListState extends State{
 
         currentAccount.balance=this.sumEntries();
         String temp = currentAccount.balance>=0 ? "$"+df.format(currentAccount.balance):"-$"+df.format(Math.abs(currentAccount.balance));
-        textWidth = GraphicsTools.calculateTextWidth(temp, font3);
+        textWidth = calculateTextWidth(temp, font3);
 
         g.setFont(font3);
         g.drawString(temp, MainPanel.WIDTH/2-textWidth/2,52);
@@ -199,10 +201,19 @@ class EntriesScrollWindow extends ScrollWindow {
             int x = 0;
             g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
             g.drawString(e.get(i).name, x+5, y+20);
-            DecimalFormat df = new DecimalFormat("#.##");
-            g.drawString("$"+df.format(e.get(i).value), 500, y+20);
-            g.drawString(e.get(i).month+"/"+e.get(i).day+"/"+e.get(i).year, 595, y+20);
 
+            Font font2 = new Font("Dialogue", Font.PLAIN, 13);
+
+            //draw value, centered
+            DecimalFormat df = new DecimalFormat("#.##");
+            String s = "$"+df.format(e.get(i).value);
+            g.drawString(s, calculateCenteredX(s, 520 - calculateTextWidth("Value", font2)/2, font2), y+20);
+
+            //draw date, centered
+            s = e.get(i).month+"/"+e.get(i).day+"/"+e.get(i).year;
+            g.drawString(s, calculateCenteredX(s, 640 - calculateTextWidth("Date", font2)/2, font2), y+20);
+
+            //draw delete button
             Button temp = (Button) im.getInput(e.get(i).name+"_del");
             temp.setParameters(710, y);
         }

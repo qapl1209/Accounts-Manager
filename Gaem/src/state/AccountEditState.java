@@ -4,7 +4,7 @@ import input.Button;
 import input.InputManager;
 import input.TextField;
 import main.MainPanel;
-import stuff.Account;
+import classes.Account;
 import util.GraphicsTools;
 import util.TextBox;
 
@@ -18,7 +18,10 @@ public class AccountEditState extends State{
     InputManager im;
 
     TextBox tb1;
+    TextBox tb2;
     Account curAccount;
+
+    boolean toggled = false;
 
     public AccountEditState(StateManager gsm, Account curAccount) {
         super(gsm);
@@ -28,8 +31,11 @@ public class AccountEditState extends State{
         im = new InputManager();
 
         Font font1 = new Font("Dialogue", Font.BOLD, 24);
+        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
+
         int textWidth = GraphicsTools.calculateTextWidth("Edit Account", font1);
         tb1 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 0, 400, 400, "Edit Account", font1);
+        tb2 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 500, 400, 400, "Please enter a valid name!", font3);
 
         im.addInput(new TextField(300, 300, 200, "New Account Name:", "tf_name"));
         im.addInput(new Button(400, 400, 50, 50, "Enter", "btn_enter"));
@@ -51,6 +57,9 @@ public class AccountEditState extends State{
     public void draw(Graphics g) {
         im.draw(g);
         tb1.draw(g);
+        if(toggled){
+            tb2.draw(g);
+        }
     }
 
     @Override
@@ -65,6 +74,7 @@ public class AccountEditState extends State{
     @Override
     public void mouseClicked(MouseEvent arg0) {
         String which = im.mouseClicked(arg0);
+        toggled = false;
 
         switch(which){
             case "btn_enter":
@@ -81,8 +91,7 @@ public class AccountEditState extends State{
                     curAccount.editEntry(in);
                 }
                 else{
-                    TextField t = (TextField) im.getInput("tf_name");
-                    t.setHintText("Please enter valid name!");
+                    toggled = true;
                 }
                 break;
             case "btn_back":
