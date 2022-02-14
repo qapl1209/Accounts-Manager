@@ -6,6 +6,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferedImage;
 
+import classes.Entry;
 import input.*;
 import input.Button;
 import main.MainPanel;
@@ -14,13 +15,14 @@ import util.GraphicsTools;
 import util.ScrollWindow;
 import util.TextBox;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import static main.MainPanel.gsm;
+import static util.GraphicsTools.calculateCenteredX;
+import static util.GraphicsTools.calculateTextWidth;
 
 public class MenuState extends State{
 	
@@ -51,30 +53,58 @@ public class MenuState extends State{
 		tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
 		tb3 = new TextBox(550, 58, 10, 0, "Balance", font2);
 		sw = new AccountsScrollWindow(30, 90, 740, 420, 480);
-		
+
+		loadData("C:\\Users\\maxim\\Desktop\\GitHub\\Accounts-Manager\\Gaem\\src\\info.txt");
 	}
 
-	public static void loadData(String file) throws FileNotFoundException {
-		File in = new File(file);
-		Scanner scan = new Scanner(in);
+	public static void loadData(String file) {
+		try{
+			File in = new File(file);
+			Scanner s = new Scanner(in);
 
-		while(scan.hasNextLine()){
-			Scanner s = new Scanner(scan.nextLine());
-			String name = s.next();
-			s.next(); //skip account value, as is not needed and automatically calc'ed w/ entries
-			int size = Integer.parseInt(s.next());
-			s.close();
+			while(s.hasNextLine()) {    // aName aSize
+				String name = s.next();// eName eVal day month year
+				int size = Integer.parseInt(s.next());
 
-			Account a = addAccount(name);
+				Account a = addAccount(name);
 
-			for(int i = 0; i < size; i++){
-				s = new Scanner(scan.nextLine());
-				String eName = s.next();
-				double eVal = Double.parseDouble(s.next());
-				int month = Integer.parseInt(s.next());
-				int day = Integer.parseInt(s.next());
-				int year = Integer.parseInt(s.next());
+				for (int i = 0; i < size; i++) {
+					String eName = s.next();
+					double eVal = Double.parseDouble(s.next());
+					int day = Integer.parseInt(s.next());
+					int month = Integer.parseInt(s.next());
+					int year = Integer.parseInt(s.next());
+					a.addEntry(eName, eVal, day, month, year);
+				}
 			}
+			s.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return;
+	}
+
+	public static void saveData(){
+		StringBuilder sb = new StringBuilder();
+		for(Account a : accountList){
+			sb.append(a.name+" ");
+			sb.append(a.entryList.size()+"\n");
+
+			for(Entry e : a.entryList){
+				sb.append(e.name+" ");
+				sb.append(e.value+" ");
+				sb.append(e.day+" ");
+				sb.append(e.month+" ");
+				sb.append(e.year+"\n");
+			}
+		}
+
+		try{
+			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:\\Users\\maxim\\Desktop\\GitHub\\Accounts-Manager\\Gaem\\src\\info.txt")));
+			pw.write(sb.toString());
+			pw.close();
+		} catch  (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -92,7 +122,7 @@ public class MenuState extends State{
 		return a;
 	}
 
-	public void deleteAccount(String name){
+	public static void deleteAccount(String name){
 		for(int i=0;i<accountList.size();i++){
 			if(accountList.get(i).name.equals(name)){
 				accountList.remove(i);
@@ -207,8 +237,13 @@ class AccountsScrollWindow extends ScrollWindow{
 			int x = 0;
 			g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
 			g.drawString(curAccount.name, x+5, y+20);
+
+			//centering of value
 			DecimalFormat df = new DecimalFormat("#.##");
-			g.drawString("$"+df.format(curAccount.balance), 518, y+20);
+			String s = curAccount.balance>=0 ? "$"+df.format(curAccount.balance):"-$"+df.format(Math.abs(curAccount.balance));
+			Font font1 = new Font("Dialogue", Font.PLAIN, 12);
+			Font font2 = new Font("Dialogue", Font.PLAIN, 13);
+			g.drawString(s, calculateCenteredX(s, 560 - calculateTextWidth("Balance", font2)/2, font1), y+20);
 
 			Button temp = (Button) im.getInput(curAccount.name);
 			temp.setParameters(630, y);

@@ -53,8 +53,8 @@ public class EntryListState extends State{
         sw = new EntriesScrollWindow(30, 90, 740, 420, 480);
         for(Entry e : currentAccount.entryList){
             sw.im.addInput(new Button(710, 400, 20, 20, "x", e.name+"_del")); //currently initializes at arbitrary position
-            currentAccount.entryList.sort(new DateComparator());
         }
+        currentAccount.entryList.sort(new DateComparator());
 
         im.addInput(new Button(20, 20, 40, 20, "<", "btn_back"));
     }
@@ -99,7 +99,6 @@ public class EntryListState extends State{
     @Override
     public void draw(Graphics g) {
         im.draw(g);
-//        tb1.draw(g);
         tb2.draw(g);
         tb3.draw(g);
         tb4.draw(g);
@@ -206,7 +205,7 @@ class EntriesScrollWindow extends ScrollWindow {
 
             //draw value, centered
             DecimalFormat df = new DecimalFormat("#.##");
-            String s = "$"+df.format(e.get(i).value);
+            String s = e.get(i).value>=0 ? "$"+df.format(e.get(i).value):"-$"+df.format(Math.abs(e.get(i).value));
             g.drawString(s, calculateCenteredX(s, 520 - calculateTextWidth("Value", font2)/2, font2), y+20);
 
             //draw date, centered

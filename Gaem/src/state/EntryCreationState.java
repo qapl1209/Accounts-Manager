@@ -38,10 +38,8 @@ public class EntryCreationState extends State{
         tb2 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 500, 400, 400, "Please enter a valid date!", font3);
         tb3 = new TextBox(MainPanel.WIDTH/2-textWidth/2, 500, 400, 400, "Double-check entry name!", font3);
 
-//        TextField tf = new TextField(300, 300, 200, "Enter Account Name:", "tf_name");
-
         im.addInput(new input.TextField(200, 250, 200, "Enter Entry Name:", "tf_name"));
-        im.addInput(new input.TextField(200, 200, 120, "Enter Date (ex:12/31/2022):", "tf_date"));
+        im.addInput(new input.TextField(200, 200, 120, "Enter Date XX/XX/XXXX:", "tf_date"));
         im.addInput(new input.TextField(200, 300, 150, "Enter Value (no commas):", "tf_val"));
         im.addInput(new Button(400, 400, 50, 50, "Enter", "btn_enter"));
         im.addInput(new Button(20, 20, 40, 20, "<", "btn_back"));

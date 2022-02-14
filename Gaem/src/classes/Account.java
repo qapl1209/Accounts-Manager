@@ -29,6 +29,7 @@ public class Account {
     public void addEntry(String name, double balance, int day, int month, int year){
         entryList.add(new Entry(name, balance, day, month, year));
         Collections.sort(entryList, new DateComparator());
+        this.balance+=balance;
     }
 
     public void editEntry(String name){
