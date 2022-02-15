@@ -20,6 +20,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static main.MainPanel.filepath;
 import static main.MainPanel.gsm;
 import static util.GraphicsTools.calculateCenteredX;
 import static util.GraphicsTools.calculateTextWidth;
@@ -54,7 +55,7 @@ public class MenuState extends State{
 		tb3 = new TextBox(550, 58, 10, 0, "Balance", font2);
 		sw = new AccountsScrollWindow(30, 90, 740, 420, 480);
 
-		loadData("C:\\Users\\maxim\\Desktop\\GitHub\\Accounts-Manager\\Gaem\\src\\info.txt");
+		loadData(filepath);
 	}
 
 	public static void loadData(String file) {
@@ -62,45 +63,48 @@ public class MenuState extends State{
 			File in = new File(file);
 			Scanner s = new Scanner(in);
 
-			while(s.hasNextLine()) {    // aName aSize
-				String name = s.next();// eName eVal day month year
-				int size = Integer.parseInt(s.next());
+			while(s.hasNextLine()) {
+				String name = s.nextLine();
+				int size = Integer.parseInt(s.nextLine());
 
 				Account a = addAccount(name);
 
 				for (int i = 0; i < size; i++) {
-					String eName = s.next();
+					String eName = s.nextLine();
 					double eVal = Double.parseDouble(s.next());
 					int day = Integer.parseInt(s.next());
 					int month = Integer.parseInt(s.next());
 					int year = Integer.parseInt(s.next());
 					a.addEntry(eName, eVal, day, month, year);
+					if(s.hasNextLine())s.nextLine();
 				}
 			}
 			s.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
+			System.out.println("Double check source file. Wipe out if needed.");
 		}
 		return;
 	}
 
-	public static void saveData(){
+	public static void saveData(String file){
 		StringBuilder sb = new StringBuilder();
 		for(Account a : accountList){
-			sb.append(a.name+" ");
+			sb.append(a.name+"\n");
 			sb.append(a.entryList.size()+"\n");
 
 			for(Entry e : a.entryList){
-				sb.append(e.name+" ");
+				sb.append(e.name+"\n");
 				sb.append(e.value+" ");
 				sb.append(e.day+" ");
 				sb.append(e.month+" ");
 				sb.append(e.year+"\n");
 			}
 		}
+		if(accountList.size()!=0)sb.delete(sb.lastIndexOf("\n"), sb.length());
 
 		try{
-			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("C:\\Users\\maxim\\Desktop\\GitHub\\Accounts-Manager\\Gaem\\src\\info.txt")));
+			PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(file)));
 			pw.write(sb.toString());
 			pw.close();
 		} catch  (IOException e) {

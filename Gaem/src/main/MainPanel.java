@@ -29,8 +29,10 @@ public class MainPanel extends JPanel implements Runnable, KeyListener, MouseLis
 	private long targetTime = 1000 / FPS;
 	
 	public Point mouse = new Point(0, 0);
-	
-	static public StateManager gsm;
+
+	public static String filepath = System.getProperty("user.dir") + "\\src\\info.txt";
+
+	public static StateManager gsm;
 	//private Images images;
 
 	public MainPanel() {

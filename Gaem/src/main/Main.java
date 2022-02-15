@@ -7,10 +7,12 @@ import java.awt.GraphicsEnvironment;
 
 import javax.swing.JFrame;
 
+import static main.MainPanel.filepath;
+import static state.MenuState.saveData;
+
 public class Main {
 
 	public static void main(String[] args) {
-		
 		GraphicsEnvironment graphics =
 		GraphicsEnvironment.getLocalGraphicsEnvironment();
 		GraphicsDevice device = graphics.getDefaultScreenDevice();
@@ -25,7 +27,16 @@ public class Main {
 		frame.setLocationRelativeTo(null);
 		
 		frame.setVisible(true);
-		
+
+		ShutDownTask shutDownTask = new ShutDownTask();
+		Runtime.getRuntime().addShutdownHook(shutDownTask);
+	}
+	//save data upon closing of program
+	private static class ShutDownTask extends Thread{
+		@Override
+		public void run(){
+			saveData(filepath);
+		}
 	}
 	
 }
