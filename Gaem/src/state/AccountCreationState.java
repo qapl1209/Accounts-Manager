@@ -77,7 +77,7 @@ public class AccountCreationState extends State{
 
                 if(!in.equals("")&&!nameExists){
                     this.gsm.states.pop();
-                    MenuState m = (MenuState) this.gsm.states.peek();
+                    AccountListState m = (AccountListState) this.gsm.states.peek();
                     m.addAccount(in);
                 }
                 else{
@@ -90,8 +90,8 @@ public class AccountCreationState extends State{
         }
     }
 
-    public boolean containsName(String name){
-        for(Account a: MenuState.accountList){
+    public static boolean containsName(String name){
+        for(Account a: AccountListState.accountList){
             if(a.name.equals(name)){
                 return true;
             }

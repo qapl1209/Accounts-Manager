@@ -29,16 +29,6 @@ public class InputManager {
 			i.draw(g);
 		}
 	}
-	
-	//gets value of slider button
-	public int getVal(String name) {
-		for(Input i : inputs) {
-			if(i instanceof SliderButton && i.name.equals(name)) {
-				return ((SliderButton) i).getVal();
-			}
-		}
-		return -1;
-	}
 
 	public void removeInput(String name){
 		for(int i = 0; i < inputs.size(); i++) {
@@ -55,25 +45,6 @@ public class InputManager {
 			}
 		}
 		return null;
-	}
-	
-	//sets value of slider button
-	public void setVal(String name, int val) {
-		for(Input i : inputs) {
-			if(i instanceof SliderButton && i.name.equals(name)) {
-				((SliderButton) i).setVal(val);
-			}
-		}
-	}
-	
-	//gets toggled state of toggle button
-	public boolean getToggled(String name) {
-		for(Input i : inputs) {
-			if(i instanceof ToggleButton && i.name.equals(name)) {
-				return ((ToggleButton) i).getToggled();
-			}
-		}
-		return false;
 	}
 	
 	//gets text from text input

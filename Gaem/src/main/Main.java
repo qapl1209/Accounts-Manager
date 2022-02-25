@@ -8,7 +8,7 @@ import java.awt.GraphicsEnvironment;
 import javax.swing.JFrame;
 
 import static main.MainPanel.filepath;
-import static state.MenuState.saveData;
+import static state.AccountListState.saveData;
 
 public class Main {
 

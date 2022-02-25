@@ -1,16 +1,6 @@
-doodoo
-3
-ff
-60002.0 2 2 2
-e
-4.0 1 1 1
-f
-3.0 1 1 1
-Your Mother
-2
-Andrew <3
-600.0 14 2 2022
-Andrew Li
-20202.0 3 2 4
-New Account
+Example Account
+1
+Example Entry
+40.0 18 2 2022
+hi
 0

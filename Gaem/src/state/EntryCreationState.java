@@ -106,7 +106,6 @@ public class EntryCreationState extends State{
                     String temp = im.getText("tf_date");
                     String[] a = temp.split("/", 3);
 
-
                     int month = Integer.parseInt(a[0]);
                     int day = Integer.parseInt(a[1]);
                     int year = Integer.parseInt(a[2]);

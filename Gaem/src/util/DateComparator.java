@@ -8,11 +8,13 @@ public class DateComparator implements Comparator<Entry>{
         //sorts entries by date, comparator
         if(a.year==b.year){
             if(a.month==b.month){
+                if(a.day==b.day){
+                    int r = b.value>a.value?1:-1;
+                    return r;
+                }
                 return b.day-a.day;
             }
-            else{
-                return b.month-a.month;
-            }
+            return b.month-a.month;
         }
         return b.year-a.year;
     }

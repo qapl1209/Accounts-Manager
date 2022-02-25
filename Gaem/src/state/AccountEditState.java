@@ -80,14 +80,14 @@ public class AccountEditState extends State{
             case "btn_enter":
                 String in = im.getText("tf_name");
                 boolean nameExists = false;
-                for(Account a:MenuState.accountList){
+                for(Account a:AccountListState.accountList){
                     if(a.name.equals(in))nameExists=true;
                 }
                 if(!in.equals("") && !nameExists){
                     this.gsm.states.pop();
-                    MenuState.setComponentName(curAccount.name, in);
-                    MenuState.setComponentName(curAccount.name+"_del", in+"_del");
-                    MenuState.setComponentName(curAccount.name+"_edit", in+"_edit");
+                    AccountListState.setComponentName(curAccount.name, in);
+                    AccountListState.setComponentName(curAccount.name+"_del", in+"_del");
+                    AccountListState.setComponentName(curAccount.name+"_edit", in+"_edit");
                     curAccount.editEntry(in);
                 }
                 else{

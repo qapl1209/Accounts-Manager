@@ -25,7 +25,7 @@ import static main.MainPanel.gsm;
 import static util.GraphicsTools.calculateCenteredX;
 import static util.GraphicsTools.calculateTextWidth;
 
-public class MenuState extends State{
+public class AccountListState extends State{
 	
 	InputManager im;
 	
@@ -39,7 +39,7 @@ public class MenuState extends State{
 
 	static int accountViewHeight = 60;
 
-	public MenuState(StateManager gsm) {
+	public AccountListState(StateManager gsm) {
 		super(gsm);
 		
 		im = new InputManager();
@@ -235,11 +235,14 @@ class AccountsScrollWindow extends ScrollWindow{
 	@Override
 	public void repaint(Graphics g, BufferedImage b) {
 		im.draw(g);
-		for(int i = 0; i<MenuState.accountList.size();i++){
-			Account curAccount = MenuState.accountList.get(i);
-			int y = i*MenuState.accountViewHeight;
+		int counter = 0;
+		for(int i = 0; i<AccountListState.accountList.size();i++){
+			Account curAccount = AccountListState.accountList.get(i);
+			int y = i*AccountListState.accountViewHeight;
 			int x = 0;
-			g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
+			if(counter%2==0)g.drawRect(x, y, this.width-10, AccountListState.accountViewHeight);
+			else g.fillRect(x, y, this.width-10, AccountListState.accountViewHeight); //g.setColor!!!! not wokring
+
 			g.drawString(curAccount.name, x+5, y+20);
 
 			//centering of value
@@ -257,7 +260,7 @@ class AccountsScrollWindow extends ScrollWindow{
 			temp.setParameters(710, y+20);
 		}
 
-		this.setRealHeight(MenuState.accountList.size()*MenuState.accountViewHeight);
+		this.setRealHeight(AccountListState.accountList.size()*AccountListState.accountViewHeight);
 	}
 
 	public void setComponentName(String target, String change){
@@ -274,13 +277,13 @@ class AccountsScrollWindow extends ScrollWindow{
 				return;
 			}
 
-			for(Account a : MenuState.accountList){
+			for(Account a : AccountListState.accountList){
 				if(a.name.equals(which)){
 					StateManager.states.push(new EntryListState(gsm, a));
 					break;
 				}
 				else if((a.name+"_del").equals(which)){
-					MenuState m = (MenuState) StateManager.states.peek();
+					AccountListState m = (AccountListState) StateManager.states.peek();
 					m.deleteAccount(a.name);
 				}
 				else if((a.name+"_edit").equals(which)){

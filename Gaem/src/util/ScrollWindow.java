@@ -16,7 +16,6 @@ import input.InputManager;
 public abstract class ScrollWindow {
 
 	public InputManager im;
-//	public ArrayList<TextBox> tbList;
 
 	protected int x, y, width, height;
 

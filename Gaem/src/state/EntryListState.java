@@ -39,11 +39,7 @@ public class EntryListState extends State{
         this.currentAccount=currentAccount;
         im = new InputManager();
 
-        String accountName = currentAccount.name;
-
-        Font font1 = new Font("Dialogue", Font.BOLD, 24);
         Font font2 = new Font("Dialogue", Font.PLAIN, 13);
-        Font font3 = new Font("Dialogue", Font.PLAIN, 18);
 
         im.addInput(new Button(650, 528, 120, 50, "Add", "btn_add"));
         tb2 = new TextBox(32, 58, 10, 0, "Name", font2);
@@ -196,9 +192,9 @@ class EntriesScrollWindow extends ScrollWindow {
         g.setColor(Color.black);
         for(int i = 0;i< EntryListState.currentAccount.entryList.size();i++){
             ArrayList<Entry> e = EntryListState.currentAccount.entryList;
-            int y = i*MenuState.accountViewHeight;
+            int y = i*AccountListState.accountViewHeight;
             int x = 0;
-            g.drawRect(x, y, this.width-10, MenuState.accountViewHeight);
+            g.drawRect(x, y, this.width-10, AccountListState.accountViewHeight);
             g.drawString(e.get(i).name, x+5, y+20);
 
             Font font2 = new Font("Dialogue", Font.PLAIN, 13);
@@ -216,7 +212,7 @@ class EntriesScrollWindow extends ScrollWindow {
             Button temp = (Button) im.getInput(e.get(i).name+"_del");
             temp.setParameters(710, y);
         }
-        this.setRealHeight(EntryListState.currentAccount.entryList.size()*MenuState.accountViewHeight);
+        this.setRealHeight(EntryListState.currentAccount.entryList.size()*AccountListState.accountViewHeight);
     }
 
     @Override
