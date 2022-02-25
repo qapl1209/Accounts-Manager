@@ -1,8 +1,6 @@
 Example Account
-3
-ff
-900.0 23 2 2022
-ee
-1.0 23 2 2022
+1
 Example Entry
 40.0 18 2 2022
+hi
+0
