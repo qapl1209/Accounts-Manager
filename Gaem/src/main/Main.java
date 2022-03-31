@@ -32,6 +32,9 @@ public class Main {
 		Runtime.getRuntime().addShutdownHook(shutDownTask);
 	}
 	//save data upon closing of program
+	/***************************************************************************************
+ *    From Uli Köhler, available at https://stackoverflow.com/questions/5747803/running-code-on-program-exit-in-java
+ ***************************************************************************************/
 	private static class ShutDownTask extends Thread{
 		@Override
 		public void run(){
