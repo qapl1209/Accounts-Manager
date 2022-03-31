@@ -1,6 +1,2 @@
-Example Account
-1
-Example Entry
-40.0 18 2 2022
 hi
 0

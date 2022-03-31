@@ -1,3 +1,11 @@
+/***************************************************************************************
+ *    Title: Java-App-Template
+ *    Author: Andrew Li
+ *    Date: 2021
+ *    Availability: https://github.com/Andwerpz/Java-App-Template
+ *
+ ***************************************************************************************/
+
 package state;
 
 import java.awt.*;
